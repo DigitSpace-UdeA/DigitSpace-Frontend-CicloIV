@@ -5,3 +5,4 @@ Proyecto del grupo DigitSpace, programa Mision TIC 2022 de MinTIC y Universidad 
 Integrantes:
 
 - Yesica Villamil
+- Daniel Florez-Orrego
