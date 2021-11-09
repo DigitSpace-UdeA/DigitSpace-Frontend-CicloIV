@@ -8,10 +8,10 @@ Dado el auge que ha tenido el comercio electrónico y las facilidades actuales e
 
 Este proyecto cuenta con los siguientes modulos:
 
-* Módulo de gestión de usuarios
-* Módulo de gestión de proyectos
-* Módulo de gestión de inscripciones
-* Módulo de gestión de avances
+* Módulo de gestión de usuarios.
+* Módulo de gestión de proyectos.
+* Módulo de gestión de inscripciones.
+* Módulo de gestión de avances.
 
 Actualmente se compone de los siguientes miembros.
 
