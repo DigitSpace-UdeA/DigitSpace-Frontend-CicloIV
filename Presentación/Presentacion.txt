@@ -16,5 +16,5 @@ Este proyecto cuenta con los siguientes modulos:
 Actualmente se compone de los siguientes miembros.
 
 -Katerin Barrera, estudiante de ingeniería Mecatrónica, tecnóloga en gestión de sistemas electromecánicos, y técnica profesional en mantenimiento electromecánico.
--Daniel Florez-Orrego, ingeniero y doctor en ingeniería mecánica con énfasis en energía y fluidos por la Unversidad Nacional de Colombia y la Universidad de Sao Paulo.
+-Daniel Florez-Orrego, ingeniero y doctor en ingeniería mecánica con énfasis en energía y fluidos por la Universidad Nacional de Colombia y la Universidad de Sao Paulo.
 -Yesica Villamil, Ingeniera Electronica y Telecomunicaciones con interes en los nuevas tecnologias y lenguajes de programación
