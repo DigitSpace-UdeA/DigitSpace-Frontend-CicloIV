@@ -7,5 +7,5 @@ Integrantes:
 - Yesica Villamil
 - Daniel Florez-Orrego
 - David Andrés González Medina
-- Katerin Barrera
+- Katerin Barrera Ortega
 - John Kevin Giraldo Rojas
