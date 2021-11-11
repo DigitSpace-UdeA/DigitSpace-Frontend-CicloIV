@@ -8,3 +8,4 @@ Integrantes:
 - Daniel Florez-Orrego
 - David Andrés González Medina
 - Katerin Barrera
+- John Kevin Giraldo Rojas
