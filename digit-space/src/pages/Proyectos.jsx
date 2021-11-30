@@ -5,10 +5,14 @@ import React, { useState } from "react";
 //---------------------------- JAVA SCRIP-----------------------------
 
 const Proyectos = () => {
-  const [estadoCambio, setEstadoCambio] = useState(false);
+  const [estadoCambioRegistro, setEstadoCambioResgistro] = useState(false);
+  const [estadoCambioVerProyectos, setEstadoCambioVerProyectos] =
+    useState(false);
+  const [estadoCambioInscribirProyecto, setEstadoCambioInscribirProyecto] =
+    useState(false);
 
   // const verRegistrar = () => {
-  //   setEstadoCambio(!estadoCambio);
+  //   setEstadoCambioResgistro(!estadoCambioRegistro);
   // };
 
   const Inicio = () => {
@@ -19,27 +23,45 @@ const Proyectos = () => {
     );
   };
 
+  const VerProyectos = () => {
+    return (
+      <div className="flex">
+        <button
+          className="bg-gray-900  text-base rounded-b-lg p-2 ml-1 text-white "
+          onClick={() => {
+            setEstadoCambioVerProyectos(false);
+          }}
+        >
+          <i class="fas fa-arrow-circle-left"></i>
+        </button>
+
+        <div className=" pl-3">
+          lista de proyectos pryectos 1 edbiudbies jibdbs
+        </div>
+      </div>
+    );
+  };
   const Registro = () => {
     return (
-      <div className="box-border rounded-tr-lg border-8 border-gray-150 border-double p-3 my-3 ">
+      <div className="box-border rounded-tr-lg border-8 border-gray-150 border-double p-3 my-3">
         <h1 className="mr-2 text-2xl text-center mb-5 bg-blue-200 p-3 rounded-lg">
           Registrar Proyecto
         </h1>
         <div>
-          <form>
+          <form className="text-sm">
             <div className="flex">
               <div>
                 {/*--------------------------- COLUMNA IZQUIERDA ------------------------ */}
                 <ul>
                   <li className="mb-3">
-                    <label className="mr-2 text-xl">Identificación: </label>
+                    <label className="mr-2 text-base">Identificación: </label>
                     <input
                       type="text"
                       className="bg-gray-50 rounded-full py-1 px-6 border-2 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
                     />
                   </li>
                   <li className="mb-3 ">
-                    <label className="mr-2 text-xl">
+                    <label className="mr-2 text-base">
                       Nombre del proyecto:{" "}
                     </label>
                     <input
@@ -48,14 +70,14 @@ const Proyectos = () => {
                     />
                   </li>
                   <li className="mb-3">
-                    <label className="mr-2 text-xl">Fecha de inicio: </label>
+                    <label className="mr-2 text-base">Fecha de inicio: </label>
                     <input
                       type="date"
                       className="bg-gray-50 rounded-full py-1 px-6 border-2 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
                     />
                   </li>
                   <li className="mb-3">
-                    <label className="mr-2 text-xl">
+                    <label className="mr-2 text-base">
                       Estado del proyecto:{" "}
                     </label>
                     <select
@@ -76,21 +98,21 @@ const Proyectos = () => {
                 {/*--------------------------- COLUMNA DERECHA ------------------------ */}
                 <ul>
                   <li className="mb-3 ml-4">
-                    <label className="mr-2 text-xl">Nombre completo: </label>
+                    <label className="mr-2 text-base">Nombre completo: </label>
                     <input
                       type="text"
                       className="bg-gray-50 rounded-full py-1 px-6 border-2 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
                     />
                   </li>
                   <li className="mb-3 ml-4">
-                    <label className="mr-2 text-xl">Presupuesto: </label>
+                    <label className="mr-2 text-base">Presupuesto: </label>
                     <input
                       type="number"
                       className="bg-gray-50 rounded-full py-1 px-6 border-2 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
                     />
                   </li>
                   <li className="mb-3 ml-4">
-                    <label className="mr-2 text-xl">
+                    <label className="mr-2 text-base">
                       Fecha de terminación:{" "}
                     </label>
                     <input
@@ -99,7 +121,9 @@ const Proyectos = () => {
                     />
                   </li>
                   <li className="mb-3 ml-4">
-                    <label className="mr-2 text-xl">Fase del proyecto: </label>
+                    <label className="mr-2 text-base">
+                      Fase del proyecto:{" "}
+                    </label>
                     <select
                       className=" bg-gray-50 focus:outline-none border-2 rounded-full py-1 px-6 hover:border-blue-300 focus:border-blue-300 focus:ring-blue-300 
                         flex-col  justify-center items-center"
@@ -124,7 +148,7 @@ const Proyectos = () => {
                   <div>
                     <ul>
                       <li>
-                        <label className="mr-2 text-xl">
+                        <label className="mr-2 text-base">
                           Objetivo general:
                         </label>
                       </li>
@@ -144,7 +168,7 @@ const Proyectos = () => {
                 <div className="">
                   <ul>
                     <li>
-                      <label className="mr-2 text-xl">
+                      <label className="mr-2 text-base">
                         Objetivos especificos:
                       </label>
                     </li>
@@ -192,16 +216,15 @@ const Proyectos = () => {
               {/*--------------------------- OBJETIVOS------------------------ */}
             </div>
           </form>
-          ;
         </div>
         <div className=" flex justify-center  mt-3">
-          <button className="bg-gray-900  text-xl rounded-b-lg p-3 text-white">
+          <button className="bg-gray-900  text-base rounded-b-lg p-3 text-white">
             Guardar <i class="far fa-save text-green-400"></i>
           </button>
           <button
-            className="bg-gray-900  text-xl rounded-b-lg p-3 ml-2 text-white "
+            className="bg-gray-900  text-base rounded-b-lg p-3 ml-2 text-white "
             onClick={() => {
-              setEstadoCambio(false);
+              setEstadoCambioResgistro(false);
             }}
           >
             Cancelar <i class="far fa-window-close text-red-400"></i>
@@ -211,17 +234,36 @@ const Proyectos = () => {
     );
   };
 
+  const InscribirProyecto = () => {
+    return <div>Hola soy form de inscribir proyecto</div>;
+  };
   // const VerProyectos = () => {};
   // useEffect(() => {
   //   console.log("estoy escuchando el botón");
-  // }, [setEstadoCambio]);
+  // }, [setEstadoCambioResgistro]);
 
   return (
     <div className="flex justify-between">
       {/*--------------------------------- REGISTRO / LISTADO DE PROYECTOS ------------------------------------*/}
       <div>
         <div className="mx-8 justify-center">
-          <div>{estadoCambio ? <Registro /> : <Inicio />}</div>
+          {/* <div>{estadoCambioRegistro ? <Registro /> : <Inicio />}</div>
+          <div>{estadoCambioVerProyectos ? <VerProyectos /> : <Inicio />}</div> */}
+          <div>
+            {estadoCambioRegistro ||
+            estadoCambioVerProyectos ||
+            estadoCambioInscribirProyecto ? (
+              estadoCambioRegistro == true ? (
+                <Registro />
+              ) : estadoCambioVerProyectos == true ? (
+                <VerProyectos />
+              ) : (
+                <InscribirProyecto />
+              )
+            ) : (
+              <Inicio />
+            )}
+          </div>
         </div>
       </div>
       {/*---------------------------------------------------- OPCIONES--------------------------------------------- */}
@@ -233,7 +275,14 @@ const Proyectos = () => {
             </h5>
           </li>
           <li className="m-2 flex justify-end">
-            <button className="bg-gray-900 rounded-l-lg p-3">
+            <button
+              className="bg-gray-900 rounded-l-lg p-3"
+              onClick={() => {
+                setEstadoCambioVerProyectos(true);
+                setEstadoCambioResgistro(false);
+                setEstadoCambioInscribirProyecto(false);
+              }}
+            >
               Ver mis proyectos
             </button>
           </li>
@@ -241,14 +290,24 @@ const Proyectos = () => {
             <button
               className="bg-gray-900 rounded-l-lg p-3"
               onClick={() => {
-                setEstadoCambio(true);
+                setEstadoCambioResgistro(true);
+                setEstadoCambioVerProyectos(false);
+                setEstadoCambioInscribirProyecto(false);
               }}
             >
               Registrar nuevo proyecto
             </button>
           </li>
           <li className="m-2 flex justify-end">
-            <button className="bg-gray-900 rounded-l-lg p-3">
+            <button
+              className="bg-gray-900 rounded-l-lg p-3"
+              className="bg-gray-900 rounded-l-lg p-3"
+              onClick={() => {
+                setEstadoCambioInscribirProyecto(true);
+                setEstadoCambioResgistro(false);
+                setEstadoCambioVerProyectos(false);
+              }}
+            >
               Inscribirme a un nuevo proyecto
             </button>
           </li>
