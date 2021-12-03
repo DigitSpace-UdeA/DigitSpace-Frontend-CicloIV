@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-
-//---------------------------- JAVA SCRIP-----------------------------
-
-//---------------------------- JAVA SCRIP-----------------------------
+import React, { useEffect, useState } from "react";
+import { useQuery } from "@apollo/client";
+import { GET_PROYECTOS } from "../../graphql/usuarios/queries";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import EditarProyecto from "./EditarProyecto";
 
 const Proyectos = () => {
   const [estadoCambioRegistro, setEstadoCambioResgistro] = useState(false);
@@ -10,10 +11,19 @@ const Proyectos = () => {
     useState(false);
   const [estadoCambioInscribirProyecto, setEstadoCambioInscribirProyecto] =
     useState(false);
+  const { data, error, loading } = useQuery(GET_PROYECTOS);
 
-  // const verRegistrar = () => {
-  //   setEstadoCambioResgistro(!estadoCambioRegistro);
-  // };
+  useEffect(() => {
+    console.log("datos del servidor, prueba", data);
+  }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error("error consultando proyectos");
+    }
+  }, [error]);
+
+  if (loading) return <div>cargando...</div>;
 
   const Inicio = () => {
     return (
@@ -36,7 +46,44 @@ const Proyectos = () => {
         </button>
 
         <div className=" pl-3">
-          lista de proyectos pryectos 1 edbiudbies jibdbs
+          lista de proyectos:
+          <table className="tabla">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Presupuesto</th>
+                <th>Fecha inicial</th>
+                <th>Fecha final</th>
+                <th>Estado proyecto</th>
+                <th>Fase proyecto</th>
+                <th>Lider</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data &&
+                data.Proyectos.map((u) => {
+                  return (
+                    <tr key={u._id}>
+                      <td>{u.nombre}</td>
+                      <td>{u.presupuesto}</td>
+                      <td>{u.fechaInicial}</td>
+                      <td>{u.fechaFinal}</td>
+                      {/* <td>{Enum_Estado_Proyecto[u.estadoProyecto]}</td>
+                      <td>{Enum_Fase_Proyecto[u.faseProyecto]}</td> */}
+                      <td>{u.lider}</td>
+                      <td>
+                        <i class="fas fa-plus-circle"></i>
+                        <i class="far fa-edit"></i>
+                        <Link to={`proyectos/editar/${u._id}`}>
+                          <i className="far fa-edit text-gray-600 hover:text-gray-400 cursor-pointer" />
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
         </div>
       </div>
     );
@@ -253,9 +300,9 @@ const Proyectos = () => {
             {estadoCambioRegistro ||
             estadoCambioVerProyectos ||
             estadoCambioInscribirProyecto ? (
-              estadoCambioRegistro == true ? (
+              estadoCambioRegistro === true ? (
                 <Registro />
-              ) : estadoCambioVerProyectos == true ? (
+              ) : estadoCambioVerProyectos === true ? (
                 <VerProyectos />
               ) : (
                 <InscribirProyecto />
@@ -300,7 +347,6 @@ const Proyectos = () => {
           </li>
           <li className="m-2 flex justify-end">
             <button
-              className="bg-gray-900 rounded-l-lg p-3"
               className="bg-gray-900 rounded-l-lg p-3"
               onClick={() => {
                 setEstadoCambioInscribirProyecto(true);
