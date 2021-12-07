@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router";
 import { useQuery } from "@apollo/client";
-import { GET_PROYECTO } from "../../graphql/usuarios/queries";
+import { GET_PROYECTO } from "../../graphql/proyectos/queries";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Input, Textarea } from "../../components/input";
@@ -14,7 +14,7 @@ import {
 } from "../../utils/EnumProyectos";
 
 const EditarProyecto = () => {
-  const { form, formData, updateFormData } = useFormData(null);
+  const { form, updateFormData } = useFormData(null);
 
   const { _id } = useParams();
   const { data, error, loading } = useQuery(GET_PROYECTO, {
@@ -111,7 +111,9 @@ const EditarProyecto = () => {
           <Textarea
             label="Objetivo general"
             type="text"
-            name="Objetivo General"
+            name="objetivos"
+            defaultValue={data.Proyecto.objetivos.tipo}
+            required={true}
           />
           <Textarea
             label="Objetivo especifico"

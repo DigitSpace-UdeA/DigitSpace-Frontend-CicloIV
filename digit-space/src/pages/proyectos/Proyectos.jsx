@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@apollo/client";
-import { GET_PROYECTOS } from "../../graphql/usuarios/queries";
+import { GET_PROYECTOS } from "../../graphql/proyectos/queries";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { Input, Textarea } from "../../components/input";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+// import Typography from "@mui/material/Typography";
+// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import {
   Enum_EstadoProyecto,
@@ -30,6 +35,74 @@ const Proyectos = () => {
 
   if (loading) return <div>cargando...</div>;
 
+  const ListadoProyectos = () => {
+    if (data.Proyectos) {
+      return (
+        <div>
+          {data.Proyectos.map((proyecto) => {
+            return <AccordionProyecto proyecto={proyecto} />;
+          })}{" "}
+        </div>
+      );
+    }
+  };
+
+  const AccordionProyecto = ({ proyecto }) => {
+    return (
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<i class="fas fa-chevron-down" key={proyecto._id}></i>}
+        >
+          <div>
+            <div>
+              {proyecto.nombre} - {proyecto.faseProyecto}
+            </div>
+          </div>
+        </AccordionSummary>
+        <AccordionDetails>
+          <div className="flex w-full justify-between">
+            <div className="flex">
+              {proyecto.objetivos.map((objetivo) => {
+                return (
+                  <Objetivo
+                    tipo={objetivo.tipo}
+                    descripcion={objetivo.descripcion}
+                  />
+                );
+              })}
+            </div>
+            <div className="flex flex-col ">
+              <Link to={`/main/proyectos/editar/${proyecto._id}`} name="jj">
+                <i
+                  className=" far fa-edit text-gray-600 hover:text-gray-400 cursor-pointer "
+                  title="Editar"
+                />
+              </Link>
+              <Link
+                to={`/main/proyectos/inscribirse/${proyecto._id}`}
+                className=""
+              >
+                <i
+                  class="fas fa-sign-in-alt text-gray-600 hover:text-gray-400 cursor-pointer"
+                  title="Inscribirse"
+                ></i>
+              </Link>
+            </div>
+          </div>
+        </AccordionDetails>
+      </Accordion>
+    );
+  };
+
+  const Objetivo = ({ tipo, descripcion }) => {
+    return (
+      <div className=" justify-center  ">
+        <div className="mx-5 bg-gray-100 pt-1 text-center ">{tipo}</div>
+        <div className="mx-5 bg-gray-100 p-2">{descripcion}</div>
+      </div>
+    );
+  };
+
   const Inicio = () => {
     return (
       <div>
@@ -50,44 +123,50 @@ const Proyectos = () => {
           <i class="fas fa-arrow-circle-left"></i>
         </button>
 
-        <div className=" pl-3">
-          lista de proyectos:
-          <table className="tabla">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Presupuesto</th>
-                <th>Fecha inicial</th>
-                <th>Fecha final</th>
-                <th>Estado proyecto</th>
-                <th>Fase proyecto</th>
-                <th>Lider</th>
-                <th>Opciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data &&
-                data.Proyectos.map((u) => {
-                  return (
-                    <tr key={u._id}>
-                      <td>{u.nombre}</td>
-                      <td>{u.presupuesto}</td>
-                      <td>{u.fechaInicial}</td>
-                      <td>{u.fechaFinal}</td>
-                      <td>{Enum_EstadoProyecto[u.estadoProyecto]}</td>
-                      <td>{Enum_FaseProyecto[u.faseProyecto]}</td>
-                      <td>{u.lider}</td>
-                      <td>
-                        <i class="fas fa-plus-circle"></i>
-                        <Link to={`/main/proyectos/editar/${u._id}`}>
-                          <i className="far fa-edit text-gray-600 hover:text-gray-400 cursor-pointer" />
-                        </Link>
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
+        <div className="flex flex-col">
+          <div className="p-10">
+            <ListadoProyectos />
+          </div>
+
+          {/* <div className=" pl-3">
+            lista de proyectos:
+            <table className="tabla">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Presupuesto</th>
+                  <th>Fecha inicial</th>
+                  <th>Fecha final</th>
+                  <th>Estado proyecto</th>
+                  <th>Fase proyecto</th>
+                  <th>Lider</th>
+                  <th>Opciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data &&
+                  data.Proyectos.map((u) => {
+                    return (
+                      <tr key={u._id}>
+                        <td>{u.nombre}</td>
+                        <td>{u.presupuesto}</td>
+                        <td>{u.fechaInicial}</td>
+                        <td>{u.fechaFinal}</td>
+                        <td>{Enum_EstadoProyecto[u.estadoProyecto]}</td>
+                        <td>{Enum_FaseProyecto[u.faseProyecto]}</td>
+                        {/* <td>{u.lider}</td> */}
+          {/* <td>
+                          <i class="fas fa-plus-circle"></i>
+                          <Link to={`/main/proyectos/editar/${u._id}`}>
+                            <i className="far fa-edit text-gray-600 hover:text-gray-400 cursor-pointer" />
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div> */}
         </div>
       </div>
     );
