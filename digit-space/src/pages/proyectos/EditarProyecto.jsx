@@ -14,13 +14,13 @@ import {
 } from "../../utils/EnumProyectos";
 
 const EditarProyecto = () => {
-  const { form, updateFormData } = useFormData(null);
+  //   const { form, updateFormData } = useFormData(null);
 
   const { _id } = useParams();
   const { data, error, loading } = useQuery(GET_PROYECTO, {
     variables: { _id },
   });
-
+  console.log("datos", _id);
   useEffect(() => {
     console.log("datos del proyecto, prueba", data);
   }, [data]);
@@ -33,20 +33,21 @@ const EditarProyecto = () => {
 
   if (loading) return <div>cargando...</div>;
 
-  const submitForm = (e) => {
-    e.preventDefault();
-  };
+  //   const submitForm = (e) => {
+  //     e.preventDefault();
+  //   };
 
   return (
     <div>
+      <div>Editar Proyecto {_id}</div>
       <h1 className="mr-2 text-2xl text-center mb-5 p-3 rounded-lg">
         Editar Proyecto
       </h1>
       <form
         className="flex text-center justify-center"
-        onSubmit={submitForm}
-        onChange={updateFormData}
-        ref={form}
+        // onSubmit={submitForm}
+        // onChange={updateFormData}
+        // ref={form}
       >
         <div>
           <Input
@@ -57,7 +58,13 @@ const EditarProyecto = () => {
             required={true}
             readonly="readonly"
           />
-          <Input label="Documento lider" type="text" name="identificacion" />
+          <Input
+            label="Documento lider"
+            type="text"
+            name="identificacion"
+            defaultValue={data.Proyecto.lider.identificacion}
+            required={true}
+          />
           <Input
             label="Nombre del proyecto"
             type="text"
@@ -73,17 +80,32 @@ const EditarProyecto = () => {
             required={true}
             readonly="readonly"
           />
+          <Input
+            label="Estado Proyecto"
+            type="text"
+            name="estadoProyecto"
+            defaultValue={data.Proyecto.estadoProyecto}
+            required={true}
+            readonly="readonly"
+          />
 
-          <Dropdown
+          {/* <Dropdown
             label="Estado proyecto"
             name="estadoProyecto"
             defaultValue={data.Proyecto.estadoProyecto}
             required={true}
             options={Enum_EstadoProyecto}
-          />
+            readonly="readonly"
+          /> */}
         </div>
         <div className=" pl-4">
-          <Input label="Nombre lider" type="text" name="identificacion" />
+          <Input
+            label="Nombre lider"
+            type="text"
+            name="identificacion"
+            defaultValue={data.Proyecto.lider.nombre}
+            required={true}
+          />
           <Input
             label="Presupuesto"
             type="text"
@@ -99,13 +121,21 @@ const EditarProyecto = () => {
             required={true}
             readonly="readonly"
           />
-          <Dropdown
+          <Input
+            label="Fase Proyecto"
+            type="text"
+            name="faseProyecto"
+            defaultValue={data.Proyecto.faseProyecto}
+            required={true}
+            readonly="readonly"
+          />
+          {/* <Dropdown
             label="Fase proyecto"
             name="faseProyecto"
             defaultValue={data.Proyecto.faseProyecto}
             required={true}
             options={Enum_FaseProyecto}
-          />{" "}
+          /> */}
         </div>
         <div className=" pl-4">
           <Textarea

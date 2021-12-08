@@ -1,11 +1,11 @@
 const Enum_EstadoProyecto = {
-  INACTIVO: "Inactivo",
   ACTIVO: "Activo",
+  INACTIVO: "Inactivo",
 };
 
 const Enum_FaseProyecto = {
   INICIADO: "Iniciado",
-  DESARROLLADO: "Desarrollado",
+  EN_DESARROLLO: "En Desarrollo",
   TERMINADO: "Terminado",
   NULO: "Nulo",
 };

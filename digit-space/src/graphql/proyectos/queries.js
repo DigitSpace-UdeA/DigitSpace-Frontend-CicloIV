@@ -14,6 +14,10 @@ const GET_PROYECTOS = gql`
         descripcion
         tipo
       }
+      lider {
+        nombre
+        identificacion
+      }
     }
   }
 `;
@@ -31,6 +35,10 @@ const GET_PROYECTO = gql`
       objetivos {
         descripcion
         tipo
+      }
+      lider {
+        nombre
+        identificacion
       }
     }
   }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { GET_PROYECTOS } from "../../graphql/proyectos/queries";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
@@ -7,6 +7,7 @@ import { Input, Textarea } from "../../components/input";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
+import ButtonLoading from "../../components/ButtonLoanding";
 // import Typography from "@mui/material/Typography";
 // import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -14,6 +15,10 @@ import {
   Enum_EstadoProyecto,
   Enum_FaseProyecto,
 } from "../../utils/EnumProyectos";
+import { Dialog } from "@mui/material";
+import Dropdown from "../../components/Dropdown";
+import { EDITAR_PROYECTOADMINISTRADOR } from "../../graphql/proyectos/mutations";
+import useFormData from "../../hooks/useFormData";
 
 const Proyectos = () => {
   const [estadoCambioRegistro, setEstadoCambioRegistro] = useState(false);
@@ -22,6 +27,7 @@ const Proyectos = () => {
   const [estadoCambioInscribirProyecto, setEstadoCambioInscribirProyecto] =
     useState(false);
   const { data, error, loading } = useQuery(GET_PROYECTOS);
+  const [showDialog, setShowDialog] = useState(false);
 
   useEffect(() => {
     console.log("datos del servidor, prueba", data);
@@ -34,6 +40,14 @@ const Proyectos = () => {
   }, [error]);
 
   if (loading) return <div>cargando...</div>;
+
+  const Inicio = () => {
+    return (
+      <div>
+        <h1 className="">Hola soy el index</h1>
+      </div>
+    );
+  };
 
   const ListadoProyectos = () => {
     if (data.Proyectos) {
@@ -55,41 +69,73 @@ const Proyectos = () => {
         >
           <div>
             <div>
-              {proyecto.nombre} - {proyecto.faseProyecto}
+              {proyecto.nombre} - {proyecto.estadoProyecto}
             </div>
           </div>
         </AccordionSummary>
         <AccordionDetails>
-          <div className="flex w-full justify-between">
+          <div className="flex flex-col w-full justify-between">
+            {/* <div className="p-2">
+              {!editMode ? (
+                <span> {proyecto.estadoProyecto}</span>
+              ) : (
+                <div>
+                  <select>
+                    <option value="">Activo</option>
+                    <option value="">Inactivo</option>
+                    <option value="">Terminado</option>
+                  </select>
+                </div>
+              )}
+            </div> */}
             <div className="flex">
-              {proyecto.objetivos.map((objetivo) => {
-                return (
-                  <Objetivo
-                    tipo={objetivo.tipo}
-                    descripcion={objetivo.descripcion}
+              <div className="flex">
+                {proyecto.objetivos.map((objetivo) => {
+                  return (
+                    <Objetivo
+                      tipo={objetivo.tipo}
+                      descripcion={objetivo.descripcion}
+                    />
+                  );
+                })}
+              </div>
+              <div className="flex flex-col ">
+                <Link to={`/main/proyectos/editar/${proyecto._id}`} name="jj">
+                  <i
+                    className=" far fa-edit text-gray-600 hover:text-gray-400 cursor-pointer "
+                    title="Editar Estudiante"
                   />
-                );
-              })}
-            </div>
-            <div className="flex flex-col ">
-              <Link to={`/main/proyectos/editar/${proyecto._id}`} name="jj">
+                </Link>
+                <Link
+                  to={`/main/proyectos/inscribirse/${proyecto._id}`}
+                  className=""
+                >
+                  <i
+                    class="fas fa-sign-in-alt text-gray-600 hover:text-gray-400 cursor-pointer"
+                    title="Inscribirse"
+                  ></i>
+                </Link>
                 <i
                   className=" far fa-edit text-gray-600 hover:text-gray-400 cursor-pointer "
-                  title="Editar"
-                />
-              </Link>
-              <Link
-                to={`/main/proyectos/inscribirse/${proyecto._id}`}
-                className=""
-              >
-                <i
-                  class="fas fa-sign-in-alt text-gray-600 hover:text-gray-400 cursor-pointer"
-                  title="Inscribirse"
+                  title="Editar administrador"
+                  onClick={() => {
+                    setShowDialog(true);
+                  }}
                 ></i>
-              </Link>
+              </div>
             </div>
           </div>
         </AccordionDetails>
+        <Dialog open={showDialog}>
+          <div className="p-3">
+            <div>
+              <h1 className="font-bold text-blue-400">
+                Editar Fase y estado del proyecto
+              </h1>
+              <EditAdministrador _id={proyecto._id} />
+            </div>
+          </div>
+        </Dialog>
       </Accordion>
     );
   };
@@ -103,10 +149,56 @@ const Proyectos = () => {
     );
   };
 
-  const Inicio = () => {
+  const EditAdministrador = ({ _id }) => {
+    const { form, formData, updateFormData } = useFormData();
+    const [
+      editarProyectoAdministrador,
+      { data: dataMutation, loading, error },
+    ] = useMutation(EDITAR_PROYECTOADMINISTRADOR);
+
+    const submitForm = (e) => {
+      e.preventDefault();
+      editarProyectoAdministrador({
+        variables: { _id, campos: formData },
+      });
+    };
+
+    useEffect(() => {
+      console.log("veamos", dataMutation);
+    }, [dataMutation]);
+
     return (
       <div>
-        <h1 className="">Hola soy el index</h1>
+        <form ref={form} onChange={updateFormData} onSubmit={submitForm}>
+          <Dropdown
+            label="Fase proyecto"
+            name="faseProyecto"
+            required={true}
+            options={Enum_FaseProyecto}
+          />
+          <Dropdown
+            label="Estado proyecto"
+            name="estadoProyecto"
+            required={true}
+            options={Enum_EstadoProyecto}
+          />
+          <div className="flex justify-center">
+            <ButtonLoading
+              disabled={false}
+              loading={false}
+              text=" Confirmar "
+            />
+
+            <button
+              className="bg-gray-900  text-base rounded-b-lg p-3 ml-2 text-white hover:bg-indigo-500"
+              onClick={() => {
+                setShowDialog(false);
+              }}
+            >
+              Cancelar <i class="far fa-window-close text-red-400"></i>
+            </button>
+          </div>
+        </form>
       </div>
     );
   };
@@ -171,6 +263,7 @@ const Proyectos = () => {
       </div>
     );
   };
+
   const Registro = () => {
     return (
       <div>
@@ -185,11 +278,18 @@ const Proyectos = () => {
               type="text"
               name="identificacion"
             />
-            <Input label="fecha de inicio" type="date" name="identificacion" />
+            <Input
+              label="fecha de inicio"
+              type="date"
+              name="identificacion"
+              readonly="readonly"
+            />
             <Input
               label="Estado del proyecto"
               type="text"
-              name="identificacion"
+              defaultValue="Inactivo"
+              name="estadoProyecto"
+              readonly="readonly"
             />
           </div>
           <div className=" pl-4">
@@ -199,11 +299,14 @@ const Proyectos = () => {
               label="Fecha de terminación"
               type="date"
               name="identificacion"
+              readonly="readonly"
             />
             <Input
               label="Fase del proyecto"
               type="text"
-              name="identificacion"
+              defaultValue="Nulo"
+              name="faseProyecto"
+              readonly="readonly"
             />
           </div>
           <div className=" pl-4">
