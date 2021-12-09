@@ -5,6 +5,8 @@ import Main from "./pages/Main";
 // import Prueba from "./pages/Prueba";
 import Layout from "./layouts/Layout";
 import Proyectos from "./pages/proyectos/Proyectos";
+import RegistrarAvance from "./pages/proyectos/RegistrarAvance";
+import ListarAvance from "./pages/ListarAvances";
 import "./styles/tabla.css";
 // import {outlet} from react-router-dom;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -26,8 +28,10 @@ function App() {
           <Route path="/main" element={<Layout />}>
             <Route path="" element={<Main />} />
             <Route path="proyectos" element={<Proyectos />} />
-            <Route path="proyectos/editar/:_id" element={<EditarProyecto />} />
+            <Route path="proyectos/avances/:_id" element={<RegistrarAvance />} />
+            <Route path="listarAvances" element={<ListarAvance />} />
           </Route>
+          
         </Routes>
       </BrowserRouter>
     </ApolloProvider>
