@@ -6,7 +6,7 @@ import Main from "./pages/Main";
 import Layout from "./layouts/Layout";
 import Proyectos from "./pages/proyectos/Proyectos";
 import RegistrarAvance from "./pages/proyectos/RegistrarAvance";
-import ListarAvance from "./pages/ListarAvances";
+import ListarAvance from "./pages/proyectos/ListarAvances";
 import "./styles/tabla.css";
 // import {outlet} from react-router-dom;
 import { BrowserRouter, Routes, Route } from "react-router-dom";

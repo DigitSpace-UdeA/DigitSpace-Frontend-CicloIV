@@ -43,4 +43,16 @@ const GET_PROYECTO = gql`
     }
   }
 `;
-export { GET_PROYECTOS, GET_PROYECTO };
+
+const GET_AVANCE = gql`
+  query Avances($_id: String!) {
+    Avance(_id: $_id) {
+      _id
+      descripcion
+      fechaAvance
+      observaciones
+    }
+  }
+`;
+
+export { GET_PROYECTOS, GET_PROYECTO, GET_AVANCE };
