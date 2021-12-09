@@ -30,8 +30,8 @@ const GET_PROYECTO = gql`
       presupuesto
       fechaInicial
       fechaFinal
-      faseProyecto
       estadoProyecto
+      faseProyecto
       objetivos {
         descripcion
         tipo

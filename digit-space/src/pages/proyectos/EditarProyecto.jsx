@@ -20,6 +20,7 @@ const EditarProyecto = () => {
   const { data, error, loading } = useQuery(GET_PROYECTO, {
     variables: { _id },
   });
+
   console.log("datos", _id);
   useEffect(() => {
     console.log("datos del proyecto, prueba", data);
@@ -142,8 +143,8 @@ const EditarProyecto = () => {
             label="Objetivo general"
             type="text"
             name="objetivos"
-            defaultValue={data.Proyecto.objetivos.tipo}
-            required={true}
+            // defaultValue={data.Proyecto.objetivos.tipo}
+            // required={true}
           />
           <Textarea
             label="Objetivo especifico"
