@@ -23,6 +23,7 @@ import {
   EDITAR_PROYECTOLIDER,
 } from "../../graphql/proyectos/mutations";
 import useFormData from "../../hooks/useFormData";
+import { GET_USUARIOS } from "../../graphql/usuarios/queries";
 
 const Proyectos = () => {
   const { data: queryData, error, loading } = useQuery(GET_PROYECTOS);
@@ -493,83 +494,141 @@ const Proyectos = () => {
   };
 
   const Registro = () => {
-    return (
-      <div>
-        <h1 className="mr-2 text-2xl text-center mb-5 p-3 rounded-lg">
-          Registrar Proyecto
-        </h1>
-        <form className="flex">
+    var date = new Date();
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    var today = year + "-" + month + "-" + day;
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+    // document.getElementById("theDate").value = today;
+
+    const [listaUsuarios, setListaUsuarios] = useState({});
+    const [identificacionUsuario, setIdentificacionUsuario] = useState({});
+    const { data, loading, error } = useQuery(GET_USUARIOS, {
+      variables: {
+        filtro: { rol: "LIDER" },
+      },
+    });
+
+    console.log("aversamonda", data);
+
+    useEffect(() => {
+      console.log("los datos son", data);
+      if (data) {
+        const lu = {};
+        data.Usuarios.forEach((elemento) => {
+          lu[elemento._id] = elemento.nombre;
+        });
+        setListaUsuarios(lu);
+      }
+    }, [data]);
+
+    useEffect(() => {
+      console.log("los datos son", data);
+      if (data) {
+        const lu = {};
+        data.Usuarios.forEach((elemento) => {
+          lu[elemento._id] = elemento.identificacion;
+        });
+        setIdentificacionUsuario(lu);
+      }
+    }, [data]);
+
+    if (queryData.Proyectos) {
+      if (loading) return <div>cargando...</div>;
+
+      return (
+        <div>
           <div>
-            <Input label="Documento" type="text" name="identificacion" />
-            <Input
-              label="Nombre del proyecto"
-              type="text"
-              name="identificacion"
-            />
-            <Input
-              label="fecha de inicio"
-              type="date"
-              name="identificacion"
-              readonly="readonly"
-            />
-            <Input
-              label="Estado del proyecto"
-              type="text"
-              defaultValue="Inactivo"
-              name="estadoProyecto"
-              readonly="readonly"
-            />
+            <h1 className="mr-2 text-2xl text-center mb-5 p-3 rounded-lg">
+              Registrar Proyecto
+            </h1>
+            <form className="flex">
+              <div>
+                {/* <Dropdown
+                  options={listaUsuarios}
+                  name="lider"
+                  required={true}
+                /> */}
+                <Dropdown
+                  label="Documento"
+                  options={identificacionUsuario}
+                  name="identificacion"
+                />
+                <Input label="Nombre del proyecto" type="text" name="nombre" />
+                <Input
+                  label="fecha de inicio"
+                  type="date"
+                  defaultValue={today}
+                  readonly="readonly"
+                />
+                <Input
+                  label="Estado del proyecto"
+                  type="text"
+                  defaultValue="Inactivo"
+                  name="estadoProyecto"
+                  readonly="readonly"
+                />
+              </div>
+              <div className=" pl-4">
+                <Dropdown
+                  label="Nombre completo"
+                  name="nombre"
+                  options={listaUsuarios}
+                  required={true}
+                />
+                <Input label="Presupuesto" type="text" name="presupuesto" />
+                <Input
+                  label="Fecha de terminación"
+                  type="date"
+                  name="fechaFinal"
+                  readonly="readonly"
+                />
+                <Input
+                  label="Fase del proyecto"
+                  type="text"
+                  defaultValue="Nulo"
+                  name="faseProyecto"
+                  readonly="readonly"
+                />
+              </div>
+              <div className=" pl-4">
+                <Textarea
+                  label="Objetivo general"
+                  type="text"
+                  name="Objetivo General"
+                />
+                <Textarea
+                  label="Objetivo especifico"
+                  type="text"
+                  name="Objetivo especifico"
+                />
+                <Textarea
+                  label="Objetivo especifico"
+                  type="text"
+                  name="Objetivo especifico"
+                />
+              </div>
+            </form>
+            <div className=" flex justify-center  mt-3">
+              <button className="bg-gray-900  text-base rounded-b-lg p-3 text-white">
+                Guardar <i class="far fa-save text-green-400"></i>
+              </button>
+              <button
+                className="bg-gray-900  text-base rounded-b-lg p-3 ml-2 text-white "
+                onClick={() => {
+                  setEstadoCambioRegistro(false);
+                }}
+              >
+                Cancelar <i class="far fa-window-close text-red-400"></i>
+              </button>
+            </div>
           </div>
-          <div className=" pl-4">
-            <Input label="Nombre completo" type="text" name="identificacion" />
-            <Input label="Presupuesto" type="text" name="identificacion" />
-            <Input
-              label="Fecha de terminación"
-              type="date"
-              name="identificacion"
-              readonly="readonly"
-            />
-            <Input
-              label="Fase del proyecto"
-              type="text"
-              defaultValue="Nulo"
-              name="faseProyecto"
-              readonly="readonly"
-            />
-          </div>
-          <div className=" pl-4">
-            <Textarea
-              label="Objetivo general"
-              type="text"
-              name="Objetivo General"
-            />
-            <Textarea
-              label="Objetivo especifico"
-              type="text"
-              name="Objetivo especifico"
-            />
-            <Textarea
-              label="Objetivo especifico"
-              type="text"
-              name="Objetivo especifico"
-            />
-          </div>
-        </form>
-        <div className=" flex justify-center  mt-3">
-          <button className="bg-gray-900  text-base rounded-b-lg p-3 text-white">
-            Guardar <i class="far fa-save text-green-400"></i>
-          </button>
-          <button
-            className="bg-gray-900  text-base rounded-b-lg p-3 ml-2 text-white "
-            onClick={() => {
-              setEstadoCambioRegistro(false);
-            }}
-          >
-            Cancelar <i class="far fa-window-close text-red-400"></i>
-          </button>
         </div>
-      </div>
-    );
+      );
+    }
+    return <></>;
   };
 
   const InscribirProyecto = () => {
