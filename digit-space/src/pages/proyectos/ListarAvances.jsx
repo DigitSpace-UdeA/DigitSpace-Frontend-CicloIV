@@ -1,57 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { useMutation, useQuery } from "@apollo/client";
-import { GET_PROYECTOS, GET_PROYECTO, GET_AVANCE } from "../../graphql/proyectos/queries";
+import { useQuery } from "@apollo/client";
+import {GET_AVANCE } from "../../graphql/proyectos/queries";
+import { useParams, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
-import { Input, Textarea } from "../../components/input";
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import ButtonLoading from "../../components/ButtonLoanding";
-
-import {
-    Enum_EstadoProyecto,
-    Enum_FaseProyecto,
-} from "../../utils/EnumProyectos";
-import { Dialog } from "@mui/material";
-import Dropdown from "../../components/Dropdown";
-import {
-    EDITAR_PROYECTOADMINISTRADOR,
-    EDITAR_PROYECTOLIDER,
-} from "../../graphql/proyectos/mutations";
-import useFormData from "../../hooks/useFormData";
-
-
 
 const ListarAvance = () => {
 
-    const { data: queryData, error, loading } = useQuery(GET_AVANCE);
+    const { _id } = useParams();
 
-    const [showDialog, setShowDialog] = useState(false);
+    const { data:avanceData, error, loading } = useQuery(GET_AVANCE, {
+        variables: { _id }
+    });
 
     useEffect(() => {
-        console.log("datos del servidor, prueba", queryData);
-    }, [queryData]);
+        console.log("datos del servidor, avances", avanceData);
+        console.log(_id);
+    }, [avanceData]);
 
     useEffect(() => {
         if (error) {
-            toast.error("error consultando ");
+            toast.error("error consultando avances ");
+            console.log("Error", error);
         }
     }, [error]);
 
     if (loading) return <div>cargando...</div>;
-
-    const ListadoAvances = () => {
-        if (queryData.Avances) {
-            return (
-                <div>
-                    {queryData.Avances.map((avance) => {
-                        return <div>{avance.descripcion}</div>;
-                    })}
-                </div>
-            );
-        }
-    }
 
     return <div >
 
@@ -64,9 +37,6 @@ const ListarAvance = () => {
                 <label>Fecha:</label>
             </div  >
         </div>
-
-
-
     </div>;
 };
 

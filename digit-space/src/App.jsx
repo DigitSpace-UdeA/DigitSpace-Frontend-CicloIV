@@ -7,6 +7,7 @@ import Layout from "./layouts/Layout";
 import Proyectos from "./pages/proyectos/Proyectos";
 import RegistrarAvance from "./pages/proyectos/RegistrarAvance";
 import ListarAvance from "./pages/proyectos/ListarAvances";
+import ListarUsuarios from "./pages/usuarios/usuarios"
 import "./styles/tabla.css";
 // import {outlet} from react-router-dom;
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -25,11 +26,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/main" element={<Layout />}>
+          <Route path="/usuarios" element={<ListarUsuarios />}/>
+          <Route path="/main" element={<Layout />}>          
             <Route path="" element={<Main />} />
             <Route path="proyectos" element={<Proyectos />} />
             <Route path="proyectos/avances/:_id" element={<RegistrarAvance />} />
-            <Route path="listarAvances" element={<ListarAvance />} />
+            <Route path="proyectos/listarAvances/:_id" element={<ListarAvance />} />
           </Route>
           
         </Routes>
