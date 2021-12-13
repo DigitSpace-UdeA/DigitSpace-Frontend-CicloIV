@@ -17,6 +17,7 @@ import 'styles/globals.css';
 import 'styles/tabla.css';
 import NuevoProyecto from 'pages/proyectos/NuevoProyecto';
 import IndexInscripciones from 'pages/inscripciones';
+import ListarAvance from 'pages/proyectos/ListarAvances';
 
 // import PrivateRoute from 'components/PrivateRoute';
 
@@ -81,6 +82,7 @@ function App() {
                 <Route path='/usuarios/editar/:_id' element={<EditarUsuario />} />
                 <Route path='/proyectos' element={<IndexProyectos />} />
                 <Route path='/proyectos/nuevo' element={<NuevoProyecto />} />
+                <Route path='/proyectos/listarAvances/:_id' element={<ListarAvance />} />
                 <Route path='/inscripciones' element={<IndexInscripciones />} />
               </Route>
               <Route path='/auth' element={<AuthLayout />}>

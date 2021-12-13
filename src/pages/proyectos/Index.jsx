@@ -19,7 +19,7 @@ import {
 } from 'components/Accordion';
 
 const IndexProyectos = () => {
-  const { data: queryData, loading, error } = useQuery(PROYECTOS);
+  const { data:queryData, loading, error } = useQuery(PROYECTOS);
 
   useEffect(() => {
     console.log('datos proyecto', queryData);

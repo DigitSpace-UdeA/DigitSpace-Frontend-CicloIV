@@ -13,3 +13,12 @@
 .input {
   @apply p-2 border border-red-200 focus:outline-none focus:border-red-800 rounded-md shadow-sm;
 }
+
+.sinborde {
+  border: 0;
+  outline: none;
+}
+.sinborde:focus {
+  border: 0;
+  outline: none;
+}
