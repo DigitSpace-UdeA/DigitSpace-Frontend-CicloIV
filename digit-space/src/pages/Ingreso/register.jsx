@@ -26,8 +26,8 @@ const Register = () => {
 
   useEffect(() => {
     if (dataMutation) {
-      if (dataMutation.registro.token) {
-        setToken(dataMutation.registro.token);
+      if (dataMutation.registrarUsuario.token) {
+        setToken(dataMutation.registrarUsuario.token);
         navigate("/");
       }
     }
