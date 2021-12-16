@@ -1,10 +1,22 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 const EDITAR_PROYECTO = gql`
   mutation Mutation($_id: String!, $campos: camposProyecto!) {
     editarProyecto(_id: $_id, campos: $campos) {
       _id
-      estado
+      estadoProyecto
+      presupuesto
+    }
+  }
+`;
+
+const EDITAR_PROYECTOADMINISTRADOR = gql`
+  mutation Mutation($_id: String!, $campos: camposProyecto!) {
+    editarProyecto(_id: $_id, campos: $campos) {
+      _id
+      nombre
+      estadoProyecto
+      faseProyecto
     }
   }
 `;
@@ -13,16 +25,12 @@ const CREAR_PROYECTO = gql`
   mutation CrearProyecto(
     $nombre: String!
     $presupuesto: Float!
-    $fechaInicio: Date!
-    $fechaFin: Date!
     $lider: String!
     $objetivos: [crearObjetivo]
   ) {
     crearProyecto(
       nombre: $nombre
       presupuesto: $presupuesto
-      fechaInicio: $fechaInicio
-      fechaFin: $fechaFin
       lider: $lider
       objetivos: $objetivos
     ) {
@@ -31,4 +39,26 @@ const CREAR_PROYECTO = gql`
   }
 `;
 
-export { EDITAR_PROYECTO, CREAR_PROYECTO };
+export { EDITAR_PROYECTO, CREAR_PROYECTO, EDITAR_PROYECTOADMINISTRADOR };
+
+// const CREAR_PROYECTO = gql`
+//   mutation CrearProyecto(
+//     $nombre: String!
+//     $presupuesto: Float!
+//     $fechaInicial: Date!
+//     $fechaFinal: Date!
+//     $lider: String!
+//     $objetivos: [crearObjetivo]
+//   ) {
+//     crearProyecto(
+//       nombre: $nombre
+//       presupuesto: $presupuesto
+//       fechaInicial: $fechaInicio
+//       fechaFinal: $fechaFin
+//       lider: $lider
+//       objetivos: $objetivos
+//     ) {
+//       _id
+//     }
+//   }
+// `;

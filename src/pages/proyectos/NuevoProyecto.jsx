@@ -1,29 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
-import Input from 'components/Input';
-import { GET_USUARIOS } from 'graphql/usuarios/queries';
-import { Link } from 'react-router-dom';
-import DropDown from 'components/Dropdown';
-import ButtonLoading from 'components/ButtonLoading';
-import useFormData from 'hooks/useFormData';
-import { Enum_TipoObjetivo } from 'utils/enums';
-import { nanoid } from 'nanoid';
-import { ObjContext } from 'context/objContext';
-import { useObj } from 'context/objContext';
-import { CREAR_PROYECTO } from 'graphql/proyectos/mutations';
-import { toast } from 'react-toastify';
+import React, { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import Input from "components/Input";
+import { GET_USUARIOS } from "graphql/usuarios/queries";
+import { Link } from "react-router-dom";
+import DropDown from "components/Dropdown";
+import ButtonLoading from "components/ButtonLoading";
+import useFormData from "hooks/useFormData";
+import { Enum_TipoObjetivo, Enum_EstadoProyecto } from "utils/enums";
+import { nanoid } from "nanoid";
+import { ObjContext } from "context/objContext";
+import { useObj } from "context/objContext";
+import { CREAR_PROYECTO } from "graphql/proyectos/mutations";
+import { toast } from "react-toastify";
 
 const NuevoProyecto = () => {
   const { form, formData, updateFormData } = useFormData();
   const [listaUsuarios, setListaUsuarios] = useState({});
   const { data, loading, error } = useQuery(GET_USUARIOS, {
     variables: {
-      filtro: { rol: 'LIDER', estado: 'AUTORIZADO' },
+      filtro: { rol: "LIDER", estado: "AUTORIZADO" },
     },
   });
 
-  const [crearProyecto, { data: mutationData, loading: mutationLoading, error: mutationError }] =
-    useMutation(CREAR_PROYECTO);
+  const [
+    crearProyecto,
+    { data: mutationData, loading: mutationLoading, error: mutationError },
+  ] = useMutation(CREAR_PROYECTO);
 
   useEffect(() => {
     console.log(data);
@@ -37,19 +39,19 @@ const NuevoProyecto = () => {
     }
   }, [data]);
 
-///
+  ///
   useEffect(() => {
     if (mutationData) {
-      toast.success('Proyecto creado con éxito');
+      toast.success("Proyecto creado con éxito");
     }
   }, [mutationData]);
 
   useEffect(() => {
     if (mutationError) {
-      toast.error('Error al intentar crear el proyecto');
+      toast.error("Error al intentar crear el proyecto");
     }
   }, [mutationError]);
-///
+  ///
 
   // useEffect(() => {
   //   console.log('data mutation', mutationData);
@@ -69,21 +71,49 @@ const NuevoProyecto = () => {
   if (loading) return <div>...Loading</div>;
 
   return (
-    <div className='p-10 flex flex-col items-center'>
-      <div className='self-start'>
-        <Link to='/proyectos'>
-          <i className='fas fa-arrow-left' />
+    <div className="p-10 flex flex-col items-center">
+      <div className="self-start">
+        <Link to="/proyectos">
+          <i className="fas fa-arrow-left" />
         </Link>
       </div>
-      <h1 className='text-2xl font-bold text-gray-900'>Crear Nuevo Proyecto</h1>
+      <h1 className="text-2xl font-bold text-gray-900">Crear Nuevo Proyecto</h1>
       <form ref={form} onChange={updateFormData} onSubmit={submitForm}>
-        <Input name='nombre' label='Nombre' required={true} type='text' />
-        <Input name='presupuesto' label='Presupuesto' required={true} type='number' />
-        <Input name='fechaInicio' label='Fecha de Inicio' required={true} type='date' />
-        <Input name='fechaFin' label='Fecha de Fin' required={true} type='date' />
-        <DropDown label='Líder' options={listaUsuarios} name='lider' required={true} />
+        <Input name="nombre" label="Nombre" required={true} type="text" />
+        <Input
+          name="presupuesto"
+          label="Presupuesto"
+          required={true}
+          type="number"
+        />
+        <Input
+          name="fechaInicial"
+          label="Fecha de Inicio"
+          required={true}
+          type="date"
+        />
+        <Input
+          name="fechaFinal"
+          label="Fecha de Fin"
+          required={true}
+          type="date"
+        />
+        {/* <DropDown
+          name="estadoProyecto"
+          label="Estado de proyecto"
+          required={true}
+          type="text"
+          options={Enum_EstadoProyecto}
+        /> */}
+
+        <DropDown
+          label="Líder"
+          options={listaUsuarios}
+          name="lider"
+          required={true}
+        />
         <Objetivos />
-        <ButtonLoading text='Crear Proyecto' loading={false} disabled={false} />
+        <ButtonLoading text="Crear Proyecto" loading={false} disabled={false} />
       </form>
     </div>
   );
@@ -116,8 +146,13 @@ const Objetivos = () => {
         <span>Insertar Objetivos </span>
         {!maxObjetivos && (
           <i
-            onClick={() => setListaObjetivos([...listaObjetivos, componenteObjetivoAgregado()])}
-            className='fas fa-list-ul rounded bg-red-500 hover:bg-red-400 text-white p-2 mx-2 cursor-pointer'
+            onClick={() =>
+              setListaObjetivos([
+                ...listaObjetivos,
+                componenteObjetivoAgregado(),
+              ])
+            }
+            className="fas fa-list-ul rounded bg-red-500 hover:bg-red-400 text-white p-2 mx-2 cursor-pointer"
           />
         )}
         {listaObjetivos.map((objetivo) => {
@@ -131,22 +166,22 @@ const Objetivos = () => {
 const FormObjetivo = ({ id }) => {
   const { eliminarObjetivo } = useObj();
   return (
-    <div className='flex items-center'>
+    <div className="flex items-center">
       <Input
         name={`nested||objetivos||${id}||descripcion`}
-        label='Descripción'
-        type='text'
+        label="Descripción"
+        type="text"
         required={true}
       />
       <DropDown
         name={`nested||objetivos||${id}||tipo`}
         options={Enum_TipoObjetivo}
-        label='Tipo de Objetivo'
+        label="Tipo de Objetivo"
         required={true}
       />
       <i
         onClick={() => eliminarObjetivo(id)}
-        className='fas fa-times rounded bg-red-500 hover:bg-red-400 text-white p-2 mx-2 cursor-pointer mt-6'
+        className="fas fa-times rounded bg-red-500 hover:bg-red-400 text-white p-2 mx-2 cursor-pointer mt-6"
       />
     </div>
   );
