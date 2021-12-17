@@ -399,22 +399,57 @@ const FormEditProyecto = ({ _id }) => {
 // };
 
 const Objetivo = ({ tipo, descripcion }) => {
-  const [editarObjetivo, setEditarObjetivo] = useState(false);
-  return (
-    <div className="justify-center items-center mx-5 my-4 bg-gray-50 p-8 rounded-lg flex flex-col shadow-xl">
-      <div className="mx-5 bg-gray-50 pt-1 text-center">{tipo}</div>
-      <div className="mx-5 bg-gray-50 p-2">{descripcion}</div>
-      <PrivateComponent roleList={["ADMINISTRADOR"]}>
+  const [estadoEditarObjetivo, setEstadoEditarObjetivo] = useState(false);
+
+  const VerObjetivos = ({}) => {
+    return (
+      <div className="justify-center items-center mx-5 my-4 bg-gray-50 p-8 rounded-lg flex flex-col shadow-xl">
+        <div className="mx-5 bg-gray-50 pt-1 text-center">{tipo}</div>
+        <div className="mx-5 bg-gray-50 p-2">{descripcion}</div>
+        <PrivateComponent roleList={["ADMINISTRADOR"]}>
+          <div className="flex justify-center ">
+            <i
+              className=" far fa-edit  bg-gray-50 text-gray-600 hover:text-gray-400 cursor-pointer text-center "
+              title="Editar Objetivo"
+              onClick={() => {
+                setEstadoEditarObjetivo(true);
+              }}
+            ></i>
+          </div>
+        </PrivateComponent>
+      </div>
+    );
+  };
+
+  const EditarObjetivo = ({}) => {
+    return (
+      <div className="justify-center items-center mx-5 my-4 bg-gray-50 p-8 rounded-lg flex flex-col shadow-xl">
+        <div className="mx-5 bg-gray-50 pt-1 text-center">
+          <Input
+            name="tipo"
+            label="Tipo de objetivo"
+            required={true}
+            type="text"
+            defaultValue={tipo}
+          />
+        </div>
+        <div className="mx-5 bg-gray-50 p-2">{descripcion}</div>
         <div className="flex justify-center ">
           <i
             className=" far fa-edit  bg-gray-50 text-gray-600 hover:text-gray-400 cursor-pointer text-center "
-            title="Editar Objetivo"
+            title="Cancelar"
             onClick={() => {
-              setEditarObjetivo(true);
+              setEstadoEditarObjetivo(false);
             }}
           ></i>
         </div>
-      </PrivateComponent>
+      </div>
+    );
+  };
+
+  return (
+    <div>
+      {estadoEditarObjetivo === true ? <EditarObjetivo /> : <VerObjetivos />}
     </div>
   );
 };
