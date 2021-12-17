@@ -21,6 +21,9 @@ import {
   AccordionDetailsStyled,
 } from "components/Accordion";
 import Input from "../../components/Input";
+import Textarea from "../../components/Textarea";
+import { Enum_TipoObjetivo } from "../../utils/enums";
+import { EDITAR_OBJETIVO } from "../../graphql/proyectos/mutations";
 
 const IndexProyectos = () => {
   const { data: queryData, loading, error } = useQuery(PROYECTOS);
@@ -91,8 +94,11 @@ const AccordionProyecto = ({ proyecto }) => {
                 {proyecto.objetivos.map((objetivo) => {
                   return (
                     <Objetivo
+                      proyectoObjetivo={objetivo}
+                      _id={proyecto._id}
                       tipo={objetivo.tipo}
                       descripcion={objetivo.descripcion}
+                      ObjetivoArray={proyecto.objetivos}
                     />
                   );
                 })}
@@ -398,9 +404,17 @@ const FormEditProyecto = ({ _id }) => {
 //   );
 // };
 
-const Objetivo = ({ tipo, descripcion }) => {
+const Objetivo = ({
+  tipo,
+  descripcion,
+  _id,
+  proyectoObjetivo,
+  ObjetivoArray,
+}) => {
   const [estadoEditarObjetivo, setEstadoEditarObjetivo] = useState(false);
+  const [estadoObjetivoEditado, setEstadoObjetivoEditado] = useState(false);
 
+  console.log("averr", proyectoObjetivo);
   const VerObjetivos = ({}) => {
     return (
       <div className="justify-center items-center mx-5 my-4 bg-gray-50 p-8 rounded-lg flex flex-col shadow-xl">
@@ -421,35 +435,112 @@ const Objetivo = ({ tipo, descripcion }) => {
     );
   };
 
-  const EditarObjetivo = ({}) => {
+  const EditarObjetivo = ({ _idProyecto, proyectoObjetivo, ObjetivoArray }) => {
+    console.log("a ver", _idProyecto);
+    console.log("id de objetivo", proyectoObjetivo);
+    console.log("peremosfuncione", ObjetivoArray);
+
+    const index = ObjetivoArray.indexOf(proyectoObjetivo);
+    console.log("index", index);
+    const { form, formData, updateFormData } = useFormData();
+    const [
+      editarObjetivo,
+      { data: dataMutation, loading, error: mutationError },
+    ] = useMutation(EDITAR_OBJETIVO);
+
+    const submitForm = (e) => {
+      // const IndexObjetivo =({})={
+      //   ObjetivoArray.indexOf(proyectoObjetivo)
+      // };
+      e.preventDefault();
+      editarObjetivo({
+        variables: {
+          indexObjetivo: index,
+          idProyecto: _idProyecto,
+          campos: formData,
+        },
+      });
+    };
+    useEffect(() => {
+      if (mutationError) {
+        toast.error("Error modificando el usuario");
+      }
+    }, [mutationError]);
+
+    useEffect(() => {
+      if (dataMutation) {
+        toast.success("Objetivo editado con éxito");
+      }
+    }, [dataMutation]);
+
     return (
-      <div className="justify-center items-center mx-5 my-4 bg-gray-50 p-8 rounded-lg flex flex-col shadow-xl">
-        <div className="mx-5 bg-gray-50 pt-1 text-center">
-          <Input
-            name="tipo"
-            label="Tipo de objetivo"
-            required={true}
-            type="text"
-            defaultValue={tipo}
+      <form
+        ref={form}
+        onChange={updateFormData}
+        onSubmit={submitForm}
+        className="flex flex-col items-center"
+      >
+        <div className="justify-center items-center mx-5 my-4 bg-gray-50 p-8 rounded-lg flex flex-col shadow-xl">
+          <div className="mx-5 bg-gray-50 pt-1 text-center">
+            <Input
+              name="tipo"
+              label="Tipo de objetivo"
+              required={true}
+              type="text"
+              defaultValue={tipo}
+              readonly="readonly"
+            />
+          </div>
+          <div className="mx-5 bg-gray-50 p-2">
+            <Textarea
+              name="descripcion"
+              label="Tipo de objetivo"
+              required={true}
+              type="text"
+              defaultValue={descripcion}
+            />
+          </div>
+          <div className="flex justify-center ">
+            <i
+              className=" fas fa-window-close  bg-gray-50 text-gray-600 hover:text-gray-400 cursor-pointer text-center "
+              title="Cancelar"
+              onClick={() => {
+                setEstadoEditarObjetivo(false);
+              }}
+            ></i>
+          </div>
+          <ButtonLoading
+            disabled={false}
+            loading={loading}
+            text="Confirmar"
+            // onClick={() => {
+            //   setEstadoObjetivoEditado(true);
+            // }}
           />
         </div>
-        <div className="mx-5 bg-gray-50 p-2">{descripcion}</div>
-        <div className="flex justify-center ">
-          <i
-            className=" far fa-edit  bg-gray-50 text-gray-600 hover:text-gray-400 cursor-pointer text-center "
-            title="Cancelar"
-            onClick={() => {
-              setEstadoEditarObjetivo(false);
-            }}
-          ></i>
-        </div>
-      </div>
+      </form>
     );
+  };
+
+  const Editado = ({}) => {
+    return <div>Objetivo Editado, con éxito</div>;
   };
 
   return (
     <div>
-      {estadoEditarObjetivo === true ? <EditarObjetivo /> : <VerObjetivos />}
+      {estadoEditarObjetivo === true ? (
+        estadoObjetivoEditado === true ? (
+          <Editado />
+        ) : (
+          <EditarObjetivo
+            _idProyecto={_id}
+            proyectoObjetivo={proyectoObjetivo}
+            ObjetivoArray={ObjetivoArray}
+          />
+        )
+      ) : (
+        <VerObjetivos />
+      )}
     </div>
   );
 };

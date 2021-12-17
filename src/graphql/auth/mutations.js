@@ -1,7 +1,7 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 const REGISTRO = gql`
-  mutation Registro(
+  mutation RegistrarUsuario(
     $nombre: String!
     $apellido: String!
     $identificacion: String!
@@ -9,7 +9,7 @@ const REGISTRO = gql`
     $rol: Enum_Rol!
     $password: String!
   ) {
-    registro(
+    registrarUsuario(
       nombre: $nombre
       apellido: $apellido
       identificacion: $identificacion

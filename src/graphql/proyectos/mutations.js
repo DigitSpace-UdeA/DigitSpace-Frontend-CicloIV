@@ -1,5 +1,24 @@
 import { gql } from "@apollo/client";
 
+const EDITAR_OBJETIVO = gql`
+  mutation Mutation(
+    $idProyecto: String!
+    $indexObjetivo: Int!
+    $campos: camposObjetivo!
+  ) {
+    editarObjetivo(
+      idProyecto: $idProyecto
+      indexObjetivo: $indexObjetivo
+      campos: $campos
+    ) {
+      objetivos {
+        descripcion
+        tipo
+      }
+    }
+  }
+`;
+
 const EDITAR_PROYECTO = gql`
   mutation Mutation($_id: String!, $campos: camposProyecto!) {
     editarProyecto(_id: $_id, campos: $campos) {
@@ -39,7 +58,12 @@ const CREAR_PROYECTO = gql`
   }
 `;
 
-export { EDITAR_PROYECTO, CREAR_PROYECTO, EDITAR_PROYECTOADMINISTRADOR };
+export {
+  EDITAR_PROYECTO,
+  CREAR_PROYECTO,
+  EDITAR_PROYECTOADMINISTRADOR,
+  EDITAR_OBJETIVO,
+};
 
 // const CREAR_PROYECTO = gql`
 //   mutation CrearProyecto(
