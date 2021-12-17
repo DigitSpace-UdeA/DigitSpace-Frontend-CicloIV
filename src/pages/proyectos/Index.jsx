@@ -282,13 +282,13 @@ const FormEditProyectoLider = ({ _id, proyecto }) => {
           defaultValue={proyecto.nombre}
           required={true}
         />
-        <Input
+        {/* <Input
           label="Presupuesto de proyecto"
           type="number"
           name="presupuesto"
           defaultValue={proyecto.presupuesto}
           required={true}
-        />
+        /> */}
 
         <ButtonLoading disabled={false} loading={loading} text="Confirmar" />
         {/* <button
