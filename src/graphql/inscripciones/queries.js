@@ -1,10 +1,10 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 const GET_INSCRIPCIONES = gql`
   query Inscripciones {
     Inscripciones {
       _id
-      estado
+      estadoInscripcion
       estudiante {
         _id
         nombre

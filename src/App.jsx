@@ -22,7 +22,7 @@ import jwt_decode from "jwt-decode";
 import "styles/globals.css";
 import "styles/tabla.css";
 import NuevoProyecto from "pages/proyectos/NuevoProyecto";
-import IndexInscripciones from "pages/inscripciones";
+import IndexInscripciones from "./pages/inscripciones";
 import ListarAvance from "pages/proyectos/ListarAvances";
 import RegistrarAvance from "pages/proyectos/RegistrarAvance";
 

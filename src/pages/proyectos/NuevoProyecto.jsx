@@ -86,7 +86,7 @@ const NuevoProyecto = () => {
           required={true}
           type="number"
         />
-        <Input
+        {/* <Input
           name="fechaInicial"
           label="Fecha de Inicio"
           required={true}
@@ -97,7 +97,7 @@ const NuevoProyecto = () => {
           label="Fecha de Fin"
           required={true}
           type="date"
-        />
+        /> */}
         {/* <DropDown
           name="estadoProyecto"
           label="Estado de proyecto"
