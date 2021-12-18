@@ -29,7 +29,7 @@ import RegistrarAvance from "pages/proyectos/RegistrarAvance";
 // import PrivateRoute from 'components/PrivateRoute';
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:4000/graphql",
+  uri: "https://servidor-graphql-digitspace.herokuapp.com/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
