@@ -85,22 +85,22 @@ function App() {
             <Routes>
               <Route path="/" element={<PrivateLayout />}>
                 <Route path="" element={<Index />} />
-                <Route path="/usuarios" element={<IndexUsuarios />} />
+                <Route path="usuarios" element={<IndexUsuarios />} />
                 <Route
-                  path="/usuarios/editar/:_id"
+                  path="usuarios/editar/:_id"
                   element={<EditarUsuario />}
                 />
-                <Route path="/proyectos" element={<IndexProyectos />} />
-                <Route path="/proyectos/nuevo" element={<NuevoProyecto />} />
+                <Route path="proyectos" element={<IndexProyectos />} />
+                <Route path="proyectos/nuevo" element={<NuevoProyecto />} />
                 <Route
-                  path="/proyectos/listarAvances/:_id"
+                  path="proyectos/listarAvances/:_id"
                   element={<ListarAvance />}
                 />
                 <Route
-                  path="/proyectos/registrarAvances/:_id"
+                  path="proyectos/registrarAvances/:_id"
                   element={<RegistrarAvance />}
                 />
-                <Route path="/inscripciones" element={<IndexInscripciones />} />
+                <Route path="inscripciones" element={<IndexInscripciones />} />
               </Route>
               <Route path="/auth" element={<AuthLayout />}>
                 <Route path="register" element={<Register />} />
